@@ -1,5 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 
+export interface Legend {
+  mainColor: number[],
+  secondColor: number[],
+  resultColor: number[]
+}
+
+export interface SelectedColors {
+  color: number[],
+  position: number,
+}
+
+// Config Colors. You can edit those color from 130 to 255
+const red = [255, 0, 0];
+const green = [0, 255, 0];
+const blue = [0, 0, 255];
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,29 +25,26 @@ export class AppComponent implements OnInit {
 
   // DOM elements
   title = 'Game Of Colors';
-  domMatrix = [];
-  legend = [];
-  moves = 0;
-  extraTableBoard = false;
+  domMatrix: Array<number[]> = [];
+  legend: Legend[] = [];
+  moves: number = 0;
+  extraTableBoard: boolean = false;
 
   // user selected colors
-  firtItemClicked;
-  secondItemClicked;
+  firtItemClicked: SelectedColors;
+  secondItemClicked: SelectedColors;
 
-  // Config Colors You can edit those color from 130 to 255
-  private red = [255, 0, 0];
-  private green = [0, 255, 0];
-  private blue = [0, 0, 255];
+
 
   // depend on rgb will calculate the final color
-  private finalColor;
+  private finalColor: number[];
 
   // add the colors to an array
-  private colors = [this.red, this.green, this.blue];
+  private colors: Array<number[]> = [red, green, blue];
 
   // Table board config
-  private matrixSize = 9;
-  private maxOftype = this.matrixSize / this.colors.length;
+  private matrixSize: number = 9;
+  private maxOftype: number = this.matrixSize / this.colors.length;
 
 
   ngOnInit() {
@@ -88,7 +101,7 @@ export class AppComponent implements OnInit {
    * Each color is an Array<number> [255,0,0]
   */
   private createMatrix(): void {
-    const tempColors = [this.red, this.green, this.blue];
+    const tempColors = [red, green, blue];
     const counterColors = [];
 
     for (let i = 0; i < this.matrixSize; i++) {
