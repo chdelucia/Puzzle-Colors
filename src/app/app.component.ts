@@ -6,22 +6,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+
+  // DOM elements
   title = 'Game Of Colors';
-
-
   domMatrix = [];
   legend = [];
   moves = 0;
   extraTableBoard = false;
 
+  // user selected colors
   firtItemClicked;
   secondItemClicked;
 
-  // Config Colors
-  private red = [255, 0, 0];
-  private green = [0, 255, 0];
-  private blue = [0, 0, 255];
+  // Config Colors You can edit those color from 130 to 255
+  private red = [155, 0, 0];
+  private green = [0, 155, 0];
+  private blue = [0, 0, 155];
+
+  // depend on rgb will calculate the final color
   private finalColor;
+
+  // add the colors to an array
   private colors = [this.red, this.green, this.blue];
 
   // Table board config
