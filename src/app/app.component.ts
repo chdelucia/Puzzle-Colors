@@ -19,9 +19,9 @@ export class AppComponent implements OnInit {
   secondItemClicked;
 
   // Config Colors You can edit those color from 130 to 255
-  private red = [155, 0, 0];
-  private green = [0, 155, 0];
-  private blue = [0, 0, 155];
+  private red = [255, 0, 0];
+  private green = [0, 255, 0];
+  private blue = [0, 0, 255];
 
   // depend on rgb will calculate the final color
   private finalColor;
