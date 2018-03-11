@@ -11,7 +11,7 @@ export interface SelectedColors {
   position: number,
 }
 
-// Config Colors. You can edit those color from 130 to 255
+// CONFIG COLORS HERE. You can edit those colors from 130 to 255
 const red = [255, 0, 0];
 const green = [0, 255, 0];
 const blue = [0, 0, 255];
@@ -58,15 +58,16 @@ export class AppComponent implements OnInit {
    * @param position index of matrix
    */
   onClick(position): void {
-    // check if box is the finalColor
+    // disable click when the color is the final Color
     if (this.domMatrix[position].join() !== this.finalColor.join()) {
       this.saveColorClicked(position);
 
+      // verifies if user has clicked 2 colors
       if (this.firtItemClicked && this.secondItemClicked) {
         const newColor = this.sumSelectedColors();
         const isValid = this.isValid(newColor);
 
-        if (isValid) { this.updateColors(newColor); } 
+        if (isValid) { this.updateColors(newColor); }
         this.deselectBoxes();
       } else {
         // wait for the second color
@@ -78,7 +79,7 @@ export class AppComponent implements OnInit {
   /** 
    * Restart the Games
    */
-  restartGame():void {
+  restartGame(): void {
     this.domMatrix = [];
     this.resetMovesCounter();
     this.deselectBoxes();
@@ -93,7 +94,7 @@ export class AppComponent implements OnInit {
     this.matrixSize = 9 * parseInt(value);
     this.maxOftype = this.matrixSize / 3;
     this.restartGame();
-    this.extraTableBoard = value !== "1"  ? true : false;
+    this.extraTableBoard = value !== "1" ? true : false;
   }
 
   /** 
@@ -105,15 +106,21 @@ export class AppComponent implements OnInit {
     const counterColors = [];
 
     for (let i = 0; i < this.matrixSize; i++) {
+      //choose a random color from the color list
       const randomNumber = Math.floor(Math.random() * tempColors.length);
       const color = tempColors[randomNumber];
+
+      //add color to the game
+      this.domMatrix.push(color);
+
+      // count which color has being added to the game
       if (counterColors[randomNumber]) {
         counterColors[randomNumber] += 1;
       } else {
         counterColors[randomNumber] = 1;
       }
 
-      this.domMatrix.push(color);
+      // Remove the color from the random array when reach its max.
       if (counterColors[randomNumber] === this.maxOftype) {
         tempColors.splice(randomNumber, 1);
         counterColors.splice(randomNumber, 1);
@@ -193,17 +200,20 @@ export class AppComponent implements OnInit {
    * Save color clicked on a temp variable
    * @param {number} position 
    */
-  private saveColorClicked(position):void {
+  private saveColorClicked(position): void {
     if (!this.firtItemClicked) {
+      // add the first color clicked
       this.firtItemClicked = {
         color: this.domMatrix[position],
         position: position,
       };
       this.moves++;
-    } else {
-      if (this.firtItemClicked.color.join() === this.domMatrix[position].join() ){
+    } else { // if user has already select the first color join here
+      // If the first and second color are the same Deselect the color and dont not count a move
+      if (this.firtItemClicked.color.join() === this.domMatrix[position].join()) {
         this.deselectBoxes();
       } else {
+        // add the second color clicked
         this.secondItemClicked = {
           color: this.domMatrix[position],
           position: position,
@@ -213,8 +223,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-  private setFinalColor() {
-    this.finalColor = this.colors[0].map( (item, index) => {
+  /** 
+   * Set final Color with red green and blue tones
+  */
+  private setFinalColor(): void {
+    this.finalColor = this.colors[0].map((item, index) => {
       return item + this.colors[1][index] + this.colors[2][index];
     })
   }
